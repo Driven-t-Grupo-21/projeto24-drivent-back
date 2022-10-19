@@ -70,6 +70,5 @@ model Address {
 
 model TiketType {
   id            Int        @id @default(autoincrement())
-  type String     @db.VarChar(255)clear
-  
+  type String     @db.VarChar(255)
 }

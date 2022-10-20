@@ -79,11 +79,11 @@ model Tiket {
   eventId Int       @unique
   Event   Event     @relation(fields: [eventId], references: [id])
   hosting Boolean
-  total   Float
 }
 
 model TiketType {
   id    Int     @id @default(autoincrement())
   type  String  @db.VarChar(255)
+  total   Float
   Tiket Tiket[]
 }

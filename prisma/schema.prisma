@@ -18,6 +18,7 @@ model User {
   updatedAt  DateTime     @updatedAt
   Session    Session[]
   Enrollment Enrollment[]
+  Orders     Order[]
 }
 
 model Session {
@@ -38,6 +39,7 @@ model Event {
   endsAt             DateTime
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+  Ticket             Ticket[]
 }
 
 model Enrollment {
@@ -66,4 +68,23 @@ model Address {
   Enrollment    Enrollment @relation(fields: [enrollmentId], references: [id])
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
+}
+
+model Order {
+  id       Int     @id @default(autoincrement())
+  userId   Int     @unique
+  User     User    @relation(fields: [userId], references: [id])
+  hosting  Boolean
+  total    Float
+  ticketId Int
+  Ticket   Ticket  @relation(fields: [ticketId], references: [id])
+}
+
+model Ticket {
+  id      Int     @id @default(autoincrement())
+  type    String  @db.VarChar(255)
+  price   String  @db.VarChar(10)
+  eventId Int
+  Event   Event   @relation(fields: [eventId], references: [id])
+  Order   Order[]
 }

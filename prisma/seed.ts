@@ -6,12 +6,14 @@ async function AddTiketTypes() {
   await prisma.tiketType.create({
     data: {
       type: 'Presential',
+      total: 250,
     },
   });
 
   await prisma.tiketType.create({
     data: {
       type: 'Online',
+      total: 100,
     },
   });
 }
@@ -30,7 +32,7 @@ async function main() {
     });
   }
 
-  await AddTiketTypes()
+  await AddTiketTypes();
 
   console.log({ event });
 }

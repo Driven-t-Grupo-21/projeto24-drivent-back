@@ -15,6 +15,7 @@ async function main() {
       },
     });
   }
+
   await prisma.ticket.createMany({
     data: [
       {

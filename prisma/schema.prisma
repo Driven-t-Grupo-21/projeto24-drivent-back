@@ -18,7 +18,7 @@ model User {
   updatedAt  DateTime     @updatedAt
   Session    Session[]
   Enrollment Enrollment[]
-  Tiket      Tiket[]
+  Orders     Order[]
 }
 
 model Session {
@@ -39,7 +39,7 @@ model Event {
   endsAt             DateTime
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
-  Tiket              Tiket[]
+  Ticket             Ticket[]
 }
 
 model Enrollment {
@@ -70,20 +70,21 @@ model Address {
   updatedAt     DateTime   @updatedAt
 }
 
-model Tiket {
-  id      Int       @id @default(autoincrement())
-  userId  Int       @unique
-  User    User      @relation(fields: [userId], references: [id])
-  typeId  Int
-  Type    TiketType @relation(fields: [typeId], references: [id])
-  eventId Int       @unique
-  Event   Event     @relation(fields: [eventId], references: [id])
-  hosting Boolean
-  total   Float
+model Order {
+  id       Int     @id @default(autoincrement())
+  userId   Int     @unique
+  User     User    @relation(fields: [userId], references: [id])
+  hosting  Boolean
+  total    Float
+  ticketId Int
+  Ticket   Ticket  @relation(fields: [ticketId], references: [id])
 }
 
-model TiketType {
-  id    Int     @id @default(autoincrement())
-  type  String  @db.VarChar(255)
-  Tiket Tiket[]
+model Ticket {
+  id      Int     @id @default(autoincrement())
+  type    String  @db.VarChar(255)
+  price   String  @db.VarChar(10)
+  eventId Int
+  Event   Event   @relation(fields: [eventId], references: [id])
+  Order   Order[]
 }

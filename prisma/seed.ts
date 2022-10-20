@@ -1,20 +1,6 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 import dayjs from 'dayjs';
 const prisma = new PrismaClient();
-
-async function AddTiketTypes() {
-  await prisma.tiketType.create({
-    data: {
-      type: 'Presential',
-    },
-  });
-
-  await prisma.tiketType.create({
-    data: {
-      type: 'Online',
-    },
-  });
-}
 
 async function main() {
   let event = await prisma.event.findFirst();
@@ -30,7 +16,20 @@ async function main() {
     });
   }
 
-  await AddTiketTypes()
+  await prisma.ticket.createMany({
+    data: [
+      {
+      type: "Presencial",
+        price: "250.00",
+        eventId: event.id,
+      },
+      {
+        type: "Online",
+        price: "100.00",
+        eventId: event.id
+      }
+    ]
+  })
 
   console.log({ event });
 }

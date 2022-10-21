@@ -3,6 +3,11 @@ import dayjs from 'dayjs';
 const prisma = new PrismaClient();
 
 async function main() {
+  await prisma.$transaction([
+    prisma.$executeRaw`TRUNCATE TABLE "Event" RESTART IDENTITY CASCADE`,
+    prisma.$executeRaw`TRUNCATE TABLE "Ticket" RESTART IDENTITY CASCADE`,
+  ]);
+
   let event = await prisma.event.findFirst();
   if (!event) {
     event = await prisma.event.create({
@@ -16,22 +21,30 @@ async function main() {
     });
   }
 
-  await prisma.ticket.createMany({
-    data: [
-      {
-        type: 'Presencial',
-        price: '250.00',
-        eventId: event.id,
-      },
-      {
-        type: 'Online',
-        price: '100.00',
-        eventId: event.id,
-      },
-    ],
+  let ticket: any = await prisma.ticket.findFirst({
+    where: {
+      eventId: event.id,
+    },
   });
 
-  console.log({ event });
+  if (!ticket) {
+    ticket = await prisma.ticket.createMany({
+      data: [
+        {
+          type: 'Presencial',
+          price: '250.00',
+          eventId: event.id,
+        },
+        {
+          type: 'Online',
+          price: '100.00',
+          eventId: event.id,
+        },
+      ],
+    });
+  }
+
+  console.log({ ticket });
 }
 
 main()

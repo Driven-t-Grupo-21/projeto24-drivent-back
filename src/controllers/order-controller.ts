@@ -13,4 +13,14 @@ export async function createOrder(req: AuthenticatedRequest, res: Response) {
   return res.status(httpStatus.CREATED).send(orderInfo);
 }
 
-export type getOrder = Omit<Order, 'id' | 'userId'>;
+export interface getOrderWithUserId {
+  hosting: boolean;
+  total: number;
+  ticketName: string;
+  ticketId?: number;
+  userId: number;
+}
+
+export type getOrder = Omit<getOrderWithUserId, 'userId'>;
+
+export type getOrderWithoutTicketName = Omit<Order, 'id'>;

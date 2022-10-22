@@ -15,7 +15,7 @@ export async function createOrder(req: AuthenticatedRequest, res: Response) {
 
 export interface getOrderWithUserId {
   hosting: boolean;
-  total: number;
+  total: string;
   ticketName: string;
   ticketId?: number;
   userId: number;

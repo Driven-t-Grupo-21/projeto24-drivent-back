@@ -74,7 +74,7 @@ model Order {
   userId   Int     @unique
   User     User    @relation(fields: [userId], references: [id])
   hosting  Boolean
-  total    Float
+  total    String  @db.VarChar(10)
   ticketId Int
   Ticket   Ticket  @relation(fields: [ticketId], references: [id])
 }

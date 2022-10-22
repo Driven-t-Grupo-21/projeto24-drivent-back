@@ -9,15 +9,15 @@ async function createOrder(orderInfo: getOrderWithoutTicketName) {
   });
 }
 
-async function getUserRegister(userId: number) {
-  return await prisma.enrollment.findFirst({
+async function findOrderByUser(userId: number) {
+  return await prisma.order.findFirst({
     where: { userId },
   });
 }
 
 const orderRepository = {
   createOrder,
-  getUserRegister,
+  findOrderByUser,
 };
 
 export default orderRepository;

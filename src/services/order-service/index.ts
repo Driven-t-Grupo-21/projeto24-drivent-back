@@ -11,6 +11,10 @@ async function createOrder(ticketInfo: getOrderWithUserId) {
   await orderRepository.createOrder({ ...newTicketInfo, ticketId });
 }
 
+async function getByUserId(userId: number, orderId: number) {
+  return await orderRepository.findOrderByUser(userId, orderId);
+}
+
 async function getTicketId(ticketName: string): Promise<number> {
   const ticketId = await ticketRepository.findTicketIdByName(ticketName);
   if (!ticketId) throw notFoundError();
@@ -24,6 +28,7 @@ async function verifyOrderAlreadyExist(userId: number) {
 
 const orderService = {
   createOrder,
+  getByUserId,
 };
 
 export default orderService;

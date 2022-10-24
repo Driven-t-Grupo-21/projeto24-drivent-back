@@ -40,6 +40,7 @@ model Event {
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
   Ticket             Ticket[]
+  Hotel              Hotel[]
 }
 
 model Enrollment {
@@ -69,14 +70,16 @@ model Address {
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
 }
+
 model Order {
-  id       Int     @id @default(autoincrement())
-  userId   Int     @unique
-  User     User    @relation(fields: [userId], references: [id])
-  hosting  Boolean
-  total    String  @db.VarChar(10)
-  ticketId Int
-  Ticket   Ticket  @relation(fields: [ticketId], references: [id])
+  id        Int         @id @default(autoincrement())
+  userId    Int         @unique
+  User      User        @relation(fields: [userId], references: [id])
+  hosting   Boolean
+  total     String      @db.VarChar(10)
+  ticketId  Int
+  Ticket    Ticket      @relation(fields: [ticketId], references: [id])
+  Books RoomBook[]
 }
 
 model Ticket {
@@ -86,4 +89,28 @@ model Ticket {
   eventId Int
   Event   Event   @relation(fields: [eventId], references: [id])
   Order   Order[]
+}
+
+model Hotel {
+  id      Int     @id @default(autoincrement())
+  name    String  @db.VarChar(255)
+  eventId Int
+  Event   Event   @relation(fields: [eventId], references: [id])
+  Rooms   Rooms[]
+}
+
+model Rooms {
+  id        Int         @id @default(autoincrement())
+  beds      Int
+  hotelId   Int
+  Hotel     Hotel       @relation(fields: [hotelId], references: [id])
+  RoomBooks RoomBook[]
+}
+
+model RoomBook {
+  id      Int   @id @default(autoincrement())
+  roomId  Int
+  orderId Int @unique
+  Rooms   Rooms @relation(fields: [roomId], references: [id])
+  Order   Order @relation(fields: [orderId], references: [id])
 }

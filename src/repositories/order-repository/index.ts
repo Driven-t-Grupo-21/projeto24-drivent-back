@@ -9,9 +9,14 @@ async function createOrder(orderInfo: getOrderWithoutTicketName) {
   });
 }
 
-async function findOrderByUser(userId: number) {
+async function findOrderByUser(userId: number, eventId?: number) {
   return await prisma.order.findFirst({
-    where: { userId },
+    where: {
+      userId,
+      Ticket: {
+        eventId
+      }
+    },
   });
 }
 

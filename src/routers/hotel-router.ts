@@ -7,5 +7,6 @@ const hotelRouter = Router();
 
 hotelRouter.all('/*', authenticateToken)
     .get('/:eventId', hotelController.getAllByEventId)
+    .post("/reservation", hotelController.createOrUpdateReservation)
 
 export { hotelRouter };

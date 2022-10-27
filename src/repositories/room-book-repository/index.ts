@@ -18,3 +18,18 @@ export async function findByOrderId(orderId: number) {
       }
   })
 }
+
+export async function createOrUpdateReservation(orderId: number, roomId: number) {
+  return prisma.roomBook.upsert({
+    where: {
+      orderId
+    },
+    update: {
+      roomId
+    },
+    create: {
+      roomId,
+      orderId
+    }
+  })
+}

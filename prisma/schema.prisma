@@ -72,14 +72,14 @@ model Address {
 }
 
 model Order {
-  id        Int         @id @default(autoincrement())
-  userId    Int         @unique
-  User      User        @relation(fields: [userId], references: [id])
-  hosting   Boolean
-  total     String      @db.VarChar(10)
-  ticketId  Int
-  Ticket    Ticket      @relation(fields: [ticketId], references: [id])
-  Books RoomBook[]
+  id       Int        @id @default(autoincrement())
+  userId   Int        @unique
+  User     User       @relation(fields: [userId], references: [id])
+  hosting  Boolean
+  total    String     @db.VarChar(10)
+  ticketId Int
+  Ticket   Ticket     @relation(fields: [ticketId], references: [id])
+  Books    RoomBook[]
 }
 
 model Ticket {
@@ -100,17 +100,17 @@ model Hotel {
 }
 
 model Rooms {
-  id        Int         @id @default(autoincrement())
+  id        Int        @id @default(autoincrement())
   beds      Int
   hotelId   Int
-  Hotel     Hotel       @relation(fields: [hotelId], references: [id])
+  Hotel     Hotel      @relation(fields: [hotelId], references: [id])
   RoomBooks RoomBook[]
 }
 
 model RoomBook {
   id      Int   @id @default(autoincrement())
   roomId  Int
-  orderId Int @unique
+  orderId Int   @unique
   Rooms   Rooms @relation(fields: [roomId], references: [id])
   Order   Order @relation(fields: [orderId], references: [id])
 }

@@ -17,6 +17,12 @@ export async function createUser({ email, password }: CreateUserParams): Promise
   });
 }
 
+export async function getById(id: number) {
+  return await userRepository.findById(id)
+
+
+}
+
 async function validateUniqueEmailOrFail(email: string) {
   const userWithSameEmail = await userRepository.findByEmail(email);
   if (userWithSameEmail) {

@@ -14,8 +14,17 @@ async function findFirst() {
   });
 }
 
+async function findEventById(id: number) {
+  return prisma.event.findFirst({
+    where: {
+      id
+    }
+  });
+}
+
 const eventRepository = {
   findFirst,
+  findEventById
 };
 
 export default eventRepository;

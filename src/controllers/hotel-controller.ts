@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 
 import * as hotelServices from "../services/hotel-service/index";
-import * as roomBookServices from "../services/room-book-service/index";
 
 export async function getAllByEventId(req: Request, res: Response) {
     const { session } = res.locals
@@ -14,8 +13,9 @@ export async function getAllByEventId(req: Request, res: Response) {
 
 export async function createOrUpdateReservation(req: Request, res: Response) {
     const {orderId, roomId} = req.body;
+    const { eventId } = req.params
 
-    await roomBookServices.createOrUpdateReservation(orderId, roomId);
+    await hotelServices.createOrUpdateReservation(orderId, roomId, eventId);
 
-    res.status(201).send("Reservation completed.")
+    res.status(200).send("Reservation completed.");
 }

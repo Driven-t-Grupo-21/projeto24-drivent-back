@@ -20,9 +20,19 @@ async function findOrderByUser(userId: number, eventId?: number) {
   });
 }
 
+async function findOrderById(orderId: number) {
+  return await prisma.order.findFirst({
+    where: {
+      id: orderId
+    }
+  })
+}
+
+
 const orderRepository = {
   createOrder,
   findOrderByUser,
+  findOrderById
 };
 
 export default orderRepository;

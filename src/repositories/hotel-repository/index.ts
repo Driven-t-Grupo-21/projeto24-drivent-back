@@ -1,7 +1,7 @@
 import { prisma } from '@/config';
 import { Hotel } from '@prisma/client';
 
-export async function getAllByEventId(eventId: number): Promise <any> {
+export async function getAllByEventId(eventId: number): Promise<any> {
   return await prisma.hotel.findMany({
     where: {
       eventId,
@@ -14,6 +14,7 @@ export async function getAllByEventId(eventId: number): Promise <any> {
           id: true,
           beds: true,
           RoomBooks: true,
+          number: true,
         },
       },
     },

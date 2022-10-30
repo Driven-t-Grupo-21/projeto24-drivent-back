@@ -4,6 +4,9 @@ import { Session } from '@prisma/client';
 import * as hotelRepositories from '../../repositories/hotel-repository/index';
 import * as roomBookServices from '../room-book-service/index';
 import orderService from '../order-service/index';
+import orderRepository from '../../repositories/order-repository/index';
+import * as roomBookRepository from '../../repositories/room-book-repository/index';
+import eventRepository from '../../repositories/event-repository/index';
 
 export async function getAllByEventId(eventId: number, session: Session) {
   if (isNaN(eventId)) throw notFoundError();
@@ -80,6 +83,28 @@ function setRoomType(beds: number) {
     default:
       return 'Triple';
   }
+}
+
+export async function createOrUpdateReservation(roomId: number, eventId: any, userId: number) {
+  const order = await verifyOrderAlreadyExist(userId, eventId);
+  await verifyValidEventId(eventId);
+  await verifyValidOrder(order.id);
+
+  return await roomBookRepository.createOrUpdateReservation(order.id, roomId);
+}
+
+async function verifyValidEventId(eventId: any) {
+  if (isNaN(eventId)) throw notFoundHotelError('The eventId sent is not valid.');
+
+  const validEventId = await eventRepository.findEventById(Number(eventId));
+
+  if (!validEventId) throw notFoundHotelError('The eventId sent does not match any active event.');
+}
+
+async function verifyValidOrder(orderId: number) {
+  const order = await orderRepository.findOrderById(orderId);
+
+  if (!order) throw notFoundHotelError('Order not found.');
 }
 
 interface IHotel {

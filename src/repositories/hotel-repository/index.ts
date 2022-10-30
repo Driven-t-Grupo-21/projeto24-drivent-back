@@ -9,6 +9,7 @@ export async function getAllByEventId(eventId: number): Promise<any> {
     select: {
       id: true,
       name: true,
+      logoImageUrl: true,
       Rooms: {
         select: {
           id: true,

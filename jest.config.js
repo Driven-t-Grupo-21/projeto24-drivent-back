@@ -12,4 +12,5 @@ module.exports = {
     '@test/(.*)': '<rootDir>/tests/$1',
   },
   restoreMocks: true,
+  testTimeout: 30000
 };

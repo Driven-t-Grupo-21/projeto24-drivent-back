@@ -2,7 +2,6 @@ import { notFoundHotelError, notFoundError } from '@/errors';
 import { Session } from '@prisma/client';
 
 import * as hotelRepositories from '../../repositories/hotel-repository/index';
-import * as userServices from '../users-service/index';
 import * as roomBookServices from '../room-book-service/index';
 import orderService from '../order-service/index';
 
@@ -13,9 +12,9 @@ export async function getAllByEventId(eventId: number, session: Session) {
   const order = await verifyOrderAlreadyExist(id, eventId);
   const isAlreadyBooked = await verifyBookAlreadyExist(order.id);
   const hotels = await hotelRepositories.getAllByEventId(eventId);
-  const roomsAvailable = checkRoomsAvailable(hotels);
+  const hotelsAvailable = checkRoomsAvailable(hotels);
 
-  return { roomsAvailable, isAlreadyBooked };
+  return { hotelsAvailable, isAlreadyBooked };
 }
 
 async function verifyOrderAlreadyExist(userId: number, eventId: number) {
@@ -35,12 +34,12 @@ async function verifyBookAlreadyExist(orderId: number) {
 
   const roomType = setRoomType(usersHotelBooked.Rooms.beds);
   const hotel = usersHotelBooked.Rooms.Hotel;
-  const roomBookeds = roomType !== 'Single' ? `Você e mais ${usersHotelBooked.Rooms.RoomBooks.length - 1}` : 'You';
+  const whoBooked = roomType !== 'Single' ? `Você e mais ${usersHotelBooked.Rooms.RoomBooks.length - 1}` : 'You';
 
   delete usersHotelBooked.Rooms.RoomBooks;
   delete usersHotelBooked.Rooms.Hotel;
 
-  return { ...usersHotelBooked, Rooms: { ...usersHotelBooked.Rooms, roomType }, hotel, roomBookeds };
+  return { ...usersHotelBooked, Rooms: { ...usersHotelBooked.Rooms, roomType }, hotel, whoBooked };
 }
 
 function checkRoomsAvailable(hotels: IHotel[]) {
@@ -107,13 +106,3 @@ interface IRoomResponse {
   roomType: string;
   availableBeds: number;
 }
-
-/* interface IHashTable<RoomType>{
-  [key: string]: boolean
-}
-
-enum RoomType {
-  Single,
-  Double,
-  Triple
-} */

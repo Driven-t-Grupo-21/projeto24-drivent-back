@@ -116,3 +116,9 @@ model RoomBook {
   Rooms   Rooms @relation(fields: [roomId], references: [id])
   Order   Order @relation(fields: [orderId], references: [id])
 }
+
+model Activities {
+  id      Int   @id @default(autoincrement())
+  activityDate  DateTime
+  activityId   Int
+}

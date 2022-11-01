@@ -24,11 +24,24 @@ async function getTicketId(ticketName: string): Promise<number> {
 async function verifyOrderAlreadyExist(userId: number) {
   const orderByUserId = await orderRepository.findOrderByUser(userId);
   if (orderByUserId) throw unauthorizedError();
+  return orderByUserId;
+}
+
+async function verifyOrderExist(userId: number, eventId: number) {
+  const order = await orderRepository.findOrderByUser(userId, eventId);
+  if (!order) throw unauthorizedError();
+  return order;
+}
+
+async function getOrderByUserId(userId: number, eventId: number) {
+  const order = verifyOrderExist(userId, eventId);
+  return order;
 }
 
 const orderService = {
   createOrder,
   getByUserId,
+  getOrderByUserId,
 };
 
 export default orderService;

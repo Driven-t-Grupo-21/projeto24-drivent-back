@@ -98,6 +98,7 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "qs": "^6.11.0",
+    "redis": "^4.4.0",
     "reflect-metadata": "^0.1.13"
   }
 }

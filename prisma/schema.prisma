@@ -120,6 +120,7 @@ model Activities {
   activityId   Int
   Activity     ActivitiesList @relation(fields: [activityId], references: [id])
   local        String
+  hour         String
   vacancies    Int
 }
 

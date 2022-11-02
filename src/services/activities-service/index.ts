@@ -8,13 +8,13 @@ async function getActivitiesDates() {
 }
 
 async function getAllActivitiesByDate(date: string) {
-  const allLocals = await activitiesRepository.getAllLocals(date);
+  const allLocals = await activitiesRepository.getAllLocals();
 
   const allActivities = Promise.all(
     allLocals.map(async (item) => {
       const activities = {
-        local: item.local,
-        activities: await activitiesRepository.findActivitiesByDate(date, item.local),
+        localId: item.name,
+        activities: await activitiesRepository.findActivitiesByDate(date, item.id),
       };
       return activities;
     }),

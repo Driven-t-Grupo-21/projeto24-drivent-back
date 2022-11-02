@@ -6,24 +6,24 @@ async function findActivitiesDate() {
   });
 }
 
-async function getAllLocals(date: any) {
-  return prisma.activities.groupBy({
-    where: { activityDate: date },
-    by: ['local'],
-  });
+async function getAllLocals() {
+  return prisma.locations.findMany();
 }
 
-async function findActivitiesByDate(date: any, local: any) {
+async function findActivitiesByDate(date: any, localId: any) {
   return prisma.activities.findMany({
     where: {
       activityDate: date,
-      local,
+      localId,
+    },
+    orderBy: {
+      hour: 'asc',
     },
     select: {
       id: true,
-      local: true,
       vacancies: true,
       Activity: true,
+      hour: true,
     },
   });
 }

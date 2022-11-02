@@ -9,7 +9,7 @@ export async function getActivitiesDate(req: Request, res: Response) {
 }
 
 export async function getActivitiesByDate(req: Request, res: Response) {
-  const { date } = req.body;
+  const { date } = req.params;
   const activities = await activitiesService.getAllActivitiesByDate(date);
 
   res.status(httpStatus.OK).send(activities);

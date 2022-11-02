@@ -8,6 +8,6 @@ const activitiesRouter = Router();
 activitiesRouter
   .all('/*', authenticateToken)
   .get('/', activitiesController.getActivitiesDate)
-  .get('/date', activitiesController.getActivitiesByDate);
+  .get('/:date', activitiesController.getActivitiesByDate);
 
 export { activitiesRouter };

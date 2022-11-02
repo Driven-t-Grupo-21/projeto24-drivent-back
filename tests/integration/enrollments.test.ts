@@ -49,32 +49,32 @@ describe('GET /enrollments', () => {
       expect(response.status).toBe(httpStatus.NOT_FOUND);
     });
 
-    // it('should respond with status 200 and enrollment data with address when there is a enrollment for given user', async () => {
-    //   const user = await createUser();
-    //   const enrollment = await createEnrollmentWithAddress(user);
-    //   const token = await generateValidToken(user);
+    it('should respond with status 200 and enrollment data with address when there is a enrollment for given user', async () => {
+      const user = await createUser();
+      const enrollment = await createEnrollmentWithAddress(user);
+      const token = await generateValidToken(user);
 
-    //   const response = await server.get('/enrollments').set('Authorization', `Bearer ${token}`);
+      const response = await server.get('/enrollments').set('Authorization', `Bearer ${token}`);
 
-    //   expect(response.status).toBe(httpStatus.OK);
-    //   expect(response.body).toEqual({
-    //     id: enrollment.id,
-    //     name: enrollment.name,
-    //     cpf: enrollment.cpf,
-    //     birthday: enrollment.birthday.toISOString(),
-    //     phone: enrollment.phone,
-    //     address: {
-    //       id: enrollment.Address[0].id,
-    //       cep: enrollment.Address[0].cep,
-    //       street: enrollment.Address[0].street,
-    //       city: enrollment.Address[0].city,
-    //       state: enrollment.Address[0].state,
-    //       number: enrollment.Address[0].number,
-    //       neighborhood: enrollment.Address[0].neighborhood,
-    //       addressDetail: enrollment.Address[0].addressDetail,
-    //     },
-    //   });
-    // });
+      expect(response.status).toBe(httpStatus.OK);
+      expect(response.body).toEqual({
+        id: enrollment.id,
+        name: enrollment.name,
+        cpf: enrollment.cpf,
+        birthday: enrollment.birthday.toISOString(),
+        phone: enrollment.phone,
+        address: {
+          id: enrollment.Address[0].id,
+          cep: enrollment.Address[0].cep,
+          street: enrollment.Address[0].street,
+          city: enrollment.Address[0].city,
+          state: enrollment.Address[0].state,
+          number: enrollment.Address[0].number,
+          neighborhood: enrollment.Address[0].neighborhood,
+          addressDetail: enrollment.Address[0].addressDetail,
+        },
+      });
+    });
   });
 });
 

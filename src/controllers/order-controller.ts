@@ -13,10 +13,19 @@ export async function createOrder(req: AuthenticatedRequest, res: Response) {
   return res.status(httpStatus.CREATED).send(orderInfo);
 }
 
+export async function getUserOrder(req: AuthenticatedRequest, res: Response) {
+  const { userId } = req;
+  const { eventId } = req.params;
+
+  const userOrder = await orderService.getOrderByUserId(Number(userId), Number(eventId));
+
+  return res.status(httpStatus.CREATED).send(userOrder);
+}
+
 export interface getOrderWithUserId {
   hosting: boolean;
   total: string;
-  ticketName: string;
+  event: string;
   ticketId?: number;
   userId: number;
 }

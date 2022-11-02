@@ -14,8 +14,11 @@ async function findOrderByUser(userId: number, eventId?: number) {
     where: {
       userId,
       Ticket: {
-        eventId
-      }
+        eventId,
+      },
+    },
+    include: {
+      Ticket: true,
     },
   });
 }
@@ -23,16 +26,15 @@ async function findOrderByUser(userId: number, eventId?: number) {
 async function findOrderById(orderId: number) {
   return await prisma.order.findFirst({
     where: {
-      id: orderId
-    }
-  })
+      id: orderId,
+    },
+  });
 }
-
 
 const orderRepository = {
   createOrder,
   findOrderByUser,
-  findOrderById
+  findOrderById,
 };
 
 export default orderRepository;

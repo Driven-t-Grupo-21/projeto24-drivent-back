@@ -6,8 +6,8 @@ import { exclude } from '@/utils/prisma-utils';
 
 async function createOrder(ticketInfo: getOrderWithUserId) {
   await verifyOrderAlreadyExist(ticketInfo.userId);
-  const ticketId: number = await getTicketId(ticketInfo.ticketName);
-  const newTicketInfo = exclude(ticketInfo, 'ticketName');
+  const ticketId: number = await getTicketId(ticketInfo.event);
+  const newTicketInfo = exclude(ticketInfo, 'event');
   await orderRepository.createOrder({ ...newTicketInfo, ticketId });
 }
 
@@ -24,11 +24,23 @@ async function getTicketId(ticketName: string): Promise<number> {
 async function verifyOrderAlreadyExist(userId: number) {
   const orderByUserId = await orderRepository.findOrderByUser(userId);
   if (orderByUserId) throw unauthorizedError();
+  return orderByUserId;
+}
+
+async function verifyOrderExist(userId: number, eventId: number) {
+  const order = await orderRepository.findOrderByUser(userId, eventId);
+  return order ?? false;
+}
+
+async function getOrderByUserId(userId: number, eventId: number) {
+  const order = verifyOrderExist(userId, eventId);
+  return order;
 }
 
 const orderService = {
   createOrder,
   getByUserId,
+  getOrderByUserId,
 };
 
 export default orderService;

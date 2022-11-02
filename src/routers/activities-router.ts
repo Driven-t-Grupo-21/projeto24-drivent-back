@@ -5,6 +5,9 @@ import * as activitiesController from '../controllers/activities-controller';
 
 const activitiesRouter = Router();
 
-activitiesRouter.all('/*', authenticateToken).get('/', activitiesController.getActivities);
+activitiesRouter
+  .all('/*', authenticateToken)
+  .get('/', activitiesController.getActivitiesDate)
+  .get('/date', activitiesController.getActivitiesByDate);
 
 export { activitiesRouter };

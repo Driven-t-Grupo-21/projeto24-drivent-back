@@ -8,14 +8,15 @@ datasource db {
 }
 
 model User {
-  id         Int         @id @default(autoincrement())
-  email      String      @unique @db.VarChar(255)
-  password   String      @db.VarChar(255)
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
-  Enrollment Enrollment?
-  Orders     Order?
-  Session    Session[]
+  id              Int               @id @default(autoincrement())
+  email           String            @unique @db.VarChar(255)
+  password        String            @db.VarChar(255)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Enrollment      Enrollment?
+  Orders          Order?
+  Session         Session[]
+  ActivitiesOrder ActivitiesOrder[]
 }
 
 model Session {
@@ -115,13 +116,15 @@ model RoomBook {
 }
 
 model Activities {
-  id           Int            @id @default(autoincrement())
-  activityDate DateTime
-  activityId   Int
-  Activity     ActivitiesList @relation(fields: [activityId], references: [id])
-  local        String
-  hour         String
-  vacancies    Int
+  id              Int               @id @default(autoincrement())
+  activityDate    DateTime
+  activityId      Int
+  Activity        ActivitiesList    @relation(fields: [activityId], references: [id])
+  localId         Int
+  local           Locations         @relation(fields: [localId], references: [id])
+  hour            String
+  vacancies       Int
+  ActivitiesOrder ActivitiesOrder[]
 }
 
 model ActivitiesList {
@@ -129,4 +132,18 @@ model ActivitiesList {
   activity   String
   duration   Int
   Activities Activities[]
+}
+
+model Locations {
+  id         Int          @id @default(autoincrement())
+  name       String
+  Activities Activities[]
+}
+
+model ActivitiesOrder {
+  id              Int        @id @default(autoincrement())
+  userId          Int        @unique
+  User            User       @relation(fields: [userId], references: [id])
+  activityInfosId Int
+  activityInfo    Activities @relation(fields: [activityInfosId], references: [id])
 }

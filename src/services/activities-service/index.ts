@@ -1,21 +1,31 @@
 import { notFoundError } from '@/errors';
 import activitiesRepository from '@/repositories/activities-repository';
 
-// async function getOneWithAddressByUserId(userId: number): Promise<GetOneWithAddressByUserIdResult> {
-async function getAllActivities() {
+async function getActivitiesDates() {
   const allDates = await activitiesRepository.findActivitiesDate();
 
-  const allActivities = await Promise.all(
-    allDates.map(async (date) => {
-      const activies = await activitiesRepository.findActivities(date.activityDate);
-      return { date, activies };
+  return allDates;
+}
+
+async function getAllActivitiesByDate(date: string) {
+  const allLocals = await activitiesRepository.getAllLocals(date);
+
+  const allActivities = Promise.all(
+    allLocals.map(async (item) => {
+      const activities = {
+        local: item.local,
+        activities: await activitiesRepository.findActivitiesByDate(date, item.local),
+      };
+      return activities;
     }),
   );
+
   return allActivities;
 }
 
 const activitiesService = {
-  getAllActivities,
+  getActivitiesDates,
+  getAllActivitiesByDate,
 };
 
 export default activitiesService;

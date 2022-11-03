@@ -11,7 +11,7 @@ export async function singInPost(req: Request, res: Response) {
     try {
       const token = await exchangeCodeForAccessToken(req.body.code);
       console.log('token', token);
-  
+
       const user = await fetchUser(token);
       res.send(user);
       return;
@@ -37,13 +37,13 @@ async function exchangeCodeForAccessToken(code: any) {
     grant_type: 'authorization_code',
     redirect_uri: REDIRECT_URL,
     client_id: CLIENT_ID,
-    client_secret: CLIENT_SECRET
+    client_secret: CLIENT_SECRET,
   };
 
   const { data } = await axios.post(GITHUB_ACCESS_TOKEN_URL, params, {
     headers: {
-      'Content-Type': 'application/json'
-    }
+      'Content-Type': 'application/json',
+    },
   });
 
   const parsedData = qs.parse(data);
@@ -53,8 +53,8 @@ async function exchangeCodeForAccessToken(code: any) {
 async function fetchUser(token: any) {
   const response = await axios.get('https://api.github.com/user', {
     headers: {
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   return response.data;

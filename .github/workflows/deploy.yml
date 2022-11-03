@@ -25,5 +25,5 @@ jobs:
 
       - name: Run
         run: |
-          echo "State is: '${{ env.action_state }}'"
+          echo "State is: '${{ env.DATABASE_URL }}'"
           docker-compose down && docker-compose up

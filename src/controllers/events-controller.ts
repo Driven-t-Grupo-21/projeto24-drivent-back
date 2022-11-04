@@ -26,3 +26,5 @@ export async function getDefaultEvent(_req: Request, res: Response) {
     console.log(error);
   }
 }
+
+export default redis;

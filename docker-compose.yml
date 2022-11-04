@@ -17,6 +17,10 @@ services:
       NODE_ENV: production
       DATABASE_URL: ${DATABASE_URL}
       JWT_SECRET: ${JWT_SECRET}
+      REDIS_URL: ${REDIS_URL}
+    depends_on:
+      - "drivent-postgres-production"
+      - "drivent-redis-production"
   drivent-postgres-production:
     image: postgres:13-alpine
     environment:
@@ -28,11 +32,26 @@ services:
     volumes:
       - /usr/local/drivent-pg/data:/var/lib/postgresql/data
     command: postgres -p ${POSTGRES_PORT}
+  drivent-redis-production:
+    image: 'redis'
+    restart: always
+    ports: 
+      - 6379:6379
+    command: redis-server
+    volumes: 
+      - drivent-redis-production:/data
   drivent-nginx:
     image: nginx
     ports:
       - 80:80
       - 443:443
+    depends_on:
+      - drivent-production
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - /usr/src/drivent/front-end:/var/www/html
+volumes:
+  drivent-postgres-production:
+    driver: local
+  drivent-redis-production:
+    driver: local

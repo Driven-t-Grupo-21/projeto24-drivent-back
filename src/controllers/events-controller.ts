@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import { createClient } from 'redis';
 
-const redis = createClient();
+const redis = createClient({url: process.env.REDIS_URL});
 
 redis.connect();
 

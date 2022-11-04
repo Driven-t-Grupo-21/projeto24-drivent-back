@@ -125,6 +125,7 @@ model Activities {
   hour            String
   vacancies       Int
   ActivitiesOrder ActivitiesOrder[]
+  @@index([activityDate])
 }
 
 model ActivitiesList {

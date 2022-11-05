@@ -14,11 +14,9 @@ export async function singInPost(req: Request, res: Response) {
   
       const user = await fetchUser(token);
       res.send(user);
-      return;
     } catch (err) {
       console.log('err', err.response.data);
       res.sendStatus(500);
-      return;
     }
   }
 

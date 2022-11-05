@@ -17,13 +17,14 @@ async function findActivitiesByDate(date: any, localId: any) {
       localId,
     },
     orderBy: {
-      hour: 'asc',
+      startsAt: 'asc',
     },
     select: {
       id: true,
+      description: true,
+      startsAt: true,
+      endsAt: true,
       vacancies: true,
-      Activity: true,
-      hour: true,
     },
   });
 }

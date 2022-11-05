@@ -13,7 +13,7 @@ async function getAllActivitiesByDate(date: string) {
   const allActivities = Promise.all(
     allLocals.map(async (item: any) => {
       const activities = {
-        localId: item.name,
+        localName: item.name,
         activities: await activitiesRepository.findActivitiesByDate(date, item.id),
       };
       return activities;

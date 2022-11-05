@@ -117,22 +117,15 @@ model RoomBook {
 
 model Activities {
   id              Int               @id @default(autoincrement())
-  activityDate    DateTime
-  activityId      Int
-  Activity        ActivitiesList    @relation(fields: [activityId], references: [id])
+  activityDate    DateTime          @db.Date()
   localId         Int
   local           Locations         @relation(fields: [localId], references: [id])
-  hour            String
+  description     String
+  startsAt        String
+  endsAt          String
   vacancies       Int
   ActivitiesOrder ActivitiesOrder[]
   @@index([activityDate])
-}
-
-model ActivitiesList {
-  id         Int          @id @default(autoincrement())
-  activity   String
-  duration   Int
-  Activities Activities[]
 }
 
 model Locations {

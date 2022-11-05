@@ -1,4 +1,6 @@
 import authenticationService, { SignInParams } from '@/services/authentication-service';
+import userRepository from '../repositories/user-repository'
+import userService from '@/services/users-service';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import axios from 'axios';
@@ -7,24 +9,34 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export async function singInPost(req: Request, res: Response) {
-  if (req.body.code) {
-    try {
-      const token = await exchangeCodeForAccessToken(req.body.code);
-      console.log('token', token);
-  
-      const user = await fetchUser(token);
-      res.send(user);
-    } catch (err) {
-      console.log('err', err.response.data);
-      res.sendStatus(500);
-    }
-  }
-
   const { email, password } = req.body as SignInParams;
 
   const result = await authenticationService.signIn({ email, password });
 
   res.status(httpStatus.OK).send(result);
+}
+
+export async function singInGitHub(req: Request, res: Response) {
+  try {
+    const token = await exchangeCodeForAccessToken(req.body.code);
+    const user = await fetchUser(token);
+    console.log(user);
+
+    const email = `${user.login}@gmail.com`;
+    const password = 'github';
+
+    const registered = await userRepository.findByEmail(email);
+    if (!registered) {
+      await userService.createUser({ email, password });
+    }
+
+    const result = await authenticationService.signIn({ email, password });
+
+    res.status(httpStatus.OK).send(result);
+  } catch (err) {
+    console.log('err', err.response.data);
+    res.sendStatus(500);
+  }
 }
 
 async function exchangeCodeForAccessToken(code: any) {

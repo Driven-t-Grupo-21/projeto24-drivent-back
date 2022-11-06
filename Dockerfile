@@ -7,7 +7,7 @@ COPY ./tsconfig*.json ./
 COPY ./prisma ./prisma
 COPY ./.husky ./
 RUN npm install
-RUN prisma generate
+RUN npx prisma generate
 COPY . .
 RUN npm run build
 

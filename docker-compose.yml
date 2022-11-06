@@ -44,7 +44,6 @@ services:
     image: nginx
     ports:
       - 80:80
-      - 443:443
     depends_on:
       - drivent-production
     volumes:

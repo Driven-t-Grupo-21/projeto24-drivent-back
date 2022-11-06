@@ -37,10 +37,16 @@ async function getOrderByUserId(userId: number, eventId: number) {
   return order;
 }
 
+async function getByUserIdOnly(userId: number) {
+  const order = await orderRepository.findOrderByUser(userId);
+  if(!order) throw unauthorizedError()
+}
+
 const orderService = {
   createOrder,
   getByUserId,
   getOrderByUserId,
+  getByUserIdOnly
 };
 
 export default orderService;

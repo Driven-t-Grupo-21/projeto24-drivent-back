@@ -8,6 +8,7 @@ const activitiesRouter = Router();
 activitiesRouter
   .all('/*', authenticateToken)
   .get('/', activitiesController.getActivitiesDate)
-  .get('/:date', activitiesController.getActivitiesByDate);
+  .get('/:date', activitiesController.getActivitiesByDate)
+  .post('/book/:activityId', activitiesController.postActivityBook);
 
 export { activitiesRouter };

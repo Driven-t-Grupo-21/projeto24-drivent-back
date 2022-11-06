@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 datasource db {
@@ -136,8 +137,10 @@ model Locations {
 
 model ActivitiesOrder {
   id              Int        @id @default(autoincrement())
-  userId          Int        @unique
+  userId          Int        
   User            User       @relation(fields: [userId], references: [id])
   activityInfosId Int
   activityInfo    Activities @relation(fields: [activityInfosId], references: [id])
+
+  @@unique(fields: [userId, activityInfosId])
 }

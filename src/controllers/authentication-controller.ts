@@ -9,24 +9,6 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 export async function singInPost(req: Request, res: Response) {
-<<<<<<< HEAD
-  if (req.body.code) {
-    try {
-      const token = await exchangeCodeForAccessToken(req.body.code);
-      console.log('token', token);
-
-      const user = await fetchUser(token);
-      res.send(user);
-      return;
-    } catch (err) {
-      console.log('err', err.response.data);
-      res.sendStatus(500);
-      return;
-    }
-  }
-
-=======
->>>>>>> 82ffbb87d1ef6b46c60fcc25fd08a22e2cf17836
   const { email, password } = req.body as SignInParams;
 
   const result = await authenticationService.signIn({ email, password });

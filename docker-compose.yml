@@ -28,7 +28,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DATABASE}
     ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+      - ${POSTGRES_PORT}:5432
     volumes:
       - /usr/local/drivent-pg/data:/var/lib/postgresql/data
     command: postgres -p ${POSTGRES_PORT}
@@ -36,15 +36,14 @@ services:
     image: 'redis'
     restart: always
     ports: 
-      - 6379:6379
+      - 6380:6379
     command: redis-server
     volumes: 
       - drivent-redis-production:/data
   drivent-nginx:
     image: nginx
     ports:
-      - 80:80
-      - 443:443
+      - 3001:80
     depends_on:
       - drivent-production
     volumes:

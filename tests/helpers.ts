@@ -14,8 +14,6 @@ export async function cleanDb() {
     prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`,
     prisma.$executeRaw`TRUNCATE TABLE "Address" RESTART IDENTITY CASCADE`,
   ]);
-
- console.log(await prisma.ticket.findFirst()) 
 }
 
 export async function generateValidToken(user?: User) {

@@ -11,12 +11,12 @@ jobs:
     timeout-minutes: 20
     env: 
       NODE_ENV: production
-      JWT_SECRET: drivent
-      REDIS_URL: redis://:@drivent-redis-production:6379
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: drivent
-      DATABASE_URL: postgresql://postgres:postgres@drivent-postgres-production:5432/drivent?schema=public
+      JWT_SECRET: ${{ secret.JWT_SECRET }}
+      REDIS_URL: ${{ secret.REDIS_URL }}
+      POSTGRES_USER: ${{ secret.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secret.POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ secret.POSTGRES_DB }}
+      DATABASE_URL: ${{ secret.DATABASE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2

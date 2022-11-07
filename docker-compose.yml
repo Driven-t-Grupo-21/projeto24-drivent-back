@@ -15,17 +15,17 @@ services:
     restart: always
     environment:
       NODE_ENV: production
-      JWT_SECRET: drivent
-      REDIS_URL: redis://:@drivent-redis-production:6379
+      JWT_SECRET: ${JWT_SECRET}
+      REDIS_URL: ${REDIS_URL}
     depends_on:
       - "drivent-postgres-production"
       - "drivent-redis-production"
   drivent-postgres-production:
     image: postgres:13-alpine
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: drivent
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - 5432:5432
     volumes:
@@ -35,7 +35,7 @@ services:
     image: 'redis'
     restart: always
     ports: 
-      - 6380:6379
+      - 6379:6379
     command: redis-server
     volumes: 
       - drivent-redis-production:/data
@@ -43,6 +43,7 @@ services:
     image: nginx
     ports:
       - 80:80
+      - 443:443
     depends_on:
       - drivent-production
     volumes:

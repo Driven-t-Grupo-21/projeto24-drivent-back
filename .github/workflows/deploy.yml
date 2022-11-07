@@ -11,12 +11,12 @@ jobs:
     timeout-minutes: 20
     env: 
       NODE_ENV: production
-      JWT_SECRET: ${{ secret.JWT_SECRET }}
-      REDIS_URL: ${{ secret.REDIS_URL }}
-      POSTGRES_USER: ${{ secret.POSTGRES_USER }}
-      POSTGRES_PASSWORD: ${{ secret.POSTGRES_PASSWORD }}
-      POSTGRES_DB: ${{ secret.POSTGRES_DB }}
-      DATABASE_URL: ${{ secret.DATABASE_URL }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      REDIS_URL: ${{ secrets.REDIS_URL }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2

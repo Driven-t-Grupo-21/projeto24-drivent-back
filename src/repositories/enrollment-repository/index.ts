@@ -13,8 +13,7 @@ async function findWithAddressByUserId(userId: number) {
 async function upsert(
   userId: number,
   createdEnrollment: CreateEnrollmentParams,
-  updatedEnrollment: UpdateEnrollmentParams,
-  prisma?: any
+  updatedEnrollment: UpdateEnrollmentParams
 ) {
   return prisma.enrollment.upsert({
     where: {

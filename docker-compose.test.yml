@@ -43,7 +43,7 @@ services:
       POSTGRES_PORT: ${POSTGRES_PORT}
       DATABASE_URL: ${DATABASE_URL}
       JWT_SECRET: ${JWT_SECRET}
-      REDIS_URL: redis://drivent-redis-test:@:6379
+      REDIS_URL: redis://:@drivent-redis-test:6379
 volumes:
   drivent-postgres-test:
     driver: local

@@ -12,6 +12,14 @@ services:
     volumes:
       - ~/data/drivent/postgres-test:/var/lib/postgresql/data
     command: postgres -p ${POSTGRES_PORT}
+  drivent-redis-test:
+    image: 'redis'
+    restart: always
+    ports: 
+      - 6379:6379
+    command: redis-server
+    volumes: 
+      - drivent-redis-production:/data
   drivent-test:
     build:
       context: .
@@ -35,3 +43,9 @@ services:
       POSTGRES_PORT: ${POSTGRES_PORT}
       DATABASE_URL: ${DATABASE_URL}
       JWT_SECRET: ${JWT_SECRET}
+      REDIS_URL: redis://drivent-redis-test:@:6379
+volumes:
+  drivent-postgres-test:
+    driver: local
+  drivent-redis-test:
+    driver: local

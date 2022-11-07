@@ -9,6 +9,14 @@ jobs:
   build:
     runs-on: drivent
     timeout-minutes: 20
+    env: 
+      NODE_ENV: production
+      JWT_SECRET: drivent
+      REDIS_URL: redis://:@drivent-redis-production:6379
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: drivent
+      DATABASE_URL: postgresql://postgres:postgres@drivent-postgres-production:5432/drivent?schema=public
     steps:
       - name: Checkout
         uses: actions/checkout@v2

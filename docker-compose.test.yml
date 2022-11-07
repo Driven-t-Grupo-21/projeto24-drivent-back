@@ -19,7 +19,7 @@ services:
       - 6379:6379
     command: redis-server
     volumes: 
-      - drivent-redis-production:/data
+      - drivent-redis-test:/data
   drivent-test:
     build:
       context: .

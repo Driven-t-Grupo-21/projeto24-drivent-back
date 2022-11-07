@@ -5,8 +5,10 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgres@drivent-postgres-production:5432/drivent?schema=public"
+  url      = "postgres://postgres:postgrespw@localhost:5432/drivent"
 }
+
+//url      = "postgresql://postgres:postgres@drivent-postgres-production:5432/drivent?schema=public"
 
 model User {
   id              Int               @id @default(autoincrement())

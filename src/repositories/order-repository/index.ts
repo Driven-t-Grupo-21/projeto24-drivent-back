@@ -19,6 +19,16 @@ async function findOrderByUser(userId: number, eventId?: number) {
     },
     include: {
       Ticket: true,
+      User: {
+        select: {
+          Enrollment: {
+            select: {
+              name: true,
+              cpf: true,
+            },
+          },
+        },
+      },
     },
   });
 }

@@ -9,7 +9,7 @@ import orderService from '../order-service';
 async function getActivitiesDates(userId: number) {
   const allDates = await activitiesRepository.findActivitiesDate();
 
-  await orderService.getByUserIdOnly(userId)
+  await orderService.getByUserIdOnly(userId);
 
   return allDates;
 }
@@ -27,7 +27,6 @@ async function getAllActivitiesByDate(date: string, userId: number) {
     }),
   );
   const userActivities = await activitiesUserIsAlreadyBooked(userId);
-
 
   return { allActivities, userActivities };
 }

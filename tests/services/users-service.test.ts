@@ -3,7 +3,7 @@ import { prisma } from '@/config';
 import userService, { duplicatedEmailError } from '@/services/users-service';
 import faker from '@faker-js/faker';
 import bcrypt from 'bcrypt';
-import { createUser as createUserSeed } from '../factories';
+import { createEvent, createUser as createUserSeed } from '../factories';
 import { cleanDb } from '../helpers';
 
 beforeAll(async () => {
@@ -13,6 +13,7 @@ beforeAll(async () => {
 
 describe('createUser', () => {
   it('should throw duplicatedUserError if there is a user with given email', async () => {
+    await createEvent()
     const existingUser = await createUserSeed();
 
     try {

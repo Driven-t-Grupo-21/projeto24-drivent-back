@@ -1,8 +1,6 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["interactiveTransactions"]
 }
 
 datasource db {
@@ -11,22 +9,24 @@ datasource db {
 }
 
 model User {
-  id         Int          @id @default(autoincrement())
-  email      String       @unique @db.VarChar(255)
-  password   String       @db.VarChar(255)
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  Session    Session[]
-  Enrollment Enrollment[]
+  id              Int               @id @default(autoincrement())
+  email           String            @unique @db.VarChar(255)
+  password        String            @db.VarChar(255)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  Enrollment      Enrollment?
+  Orders          Order?
+  Session         Session[]
+  ActivitiesOrder ActivitiesOrder[]
 }
 
 model Session {
   id        Int      @id @default(autoincrement())
   userId    Int
-  User      User     @relation(fields: [userId], references: [id])
   token     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  User      User     @relation(fields: [userId], references: [id])
 }
 
 model Event {
@@ -38,19 +38,21 @@ model Event {
   endsAt             DateTime
   createdAt          DateTime @default(now())
   updatedAt          DateTime @updatedAt
+  Hotel              Hotel[]
+  Ticket             Ticket[]
 }
 
 model Enrollment {
-  id        Int       @id @default(autoincrement())
-  name      String    @db.VarChar(255)
-  cpf       String    @db.VarChar(255)
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  cpf       String   @db.VarChar(255)
   birthday  DateTime
-  phone     String    @db.VarChar(255)
-  userId    Int       @unique
-  User      User      @relation(fields: [userId], references: [id])
-  Address   Address[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  phone     String   @db.VarChar(255)
+  userId    Int      @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  User      User     @relation(fields: [userId], references: [id])
+  Address   Address?
 }
 
 model Address {
@@ -63,7 +65,82 @@ model Address {
   neighborhood  String     @db.VarChar(255)
   addressDetail String?    @db.VarChar(255)
   enrollmentId  Int        @unique
-  Enrollment    Enrollment @relation(fields: [enrollmentId], references: [id])
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
+  Enrollment    Enrollment @relation(fields: [enrollmentId], references: [id])
+}
+
+model Order {
+  id       Int       @id @default(autoincrement())
+  userId   Int       @unique
+  hosting  Boolean
+  total    String    @db.VarChar(10)
+  ticketId Int
+  Ticket   Ticket    @relation(fields: [ticketId], references: [id])
+  User     User      @relation(fields: [userId], references: [id])
+  Books    RoomBook?
+}
+
+model Ticket {
+  id      Int     @id @default(autoincrement())
+  type    String  @db.VarChar(255)
+  price   String  @db.VarChar(10)
+  eventId Int
+  Event   Event   @relation(fields: [eventId], references: [id])
+  Order   Order[]
+}
+
+model Hotel {
+  id           Int     @id @default(autoincrement())
+  name         String  @db.VarChar(255)
+  eventId      Int
+  logoImageUrl String  @db.VarChar(255)
+  Event        Event   @relation(fields: [eventId], references: [id])
+  Rooms        Rooms[]
+}
+
+model Rooms {
+  id        Int        @id @default(autoincrement())
+  beds      Int
+  hotelId   Int
+  number    Int
+  Hotel     Hotel      @relation(fields: [hotelId], references: [id])
+  RoomBooks RoomBook[]
+}
+
+model RoomBook {
+  id      Int   @id @default(autoincrement())
+  roomId  Int
+  orderId Int   @unique
+  Order   Order @relation(fields: [orderId], references: [id])
+  Rooms   Rooms @relation(fields: [roomId], references: [id])
+}
+
+model Activities {
+  id              Int               @id @default(autoincrement())
+  activityDate    DateTime          @db.Date()
+  localId         Int
+  local           Locations         @relation(fields: [localId], references: [id])
+  description     String
+  startsAt        String
+  endsAt          String
+  vacancies       Int
+  ActivitiesOrder ActivitiesOrder[]
+  @@index([activityDate])
+}
+
+model Locations {
+  id         Int          @id @default(autoincrement())
+  name       String
+  Activities Activities[]
+}
+
+model ActivitiesOrder {
+  id              Int        @id @default(autoincrement())
+  userId          Int        
+  User            User       @relation(fields: [userId], references: [id])
+  activityInfosId Int
+  activityInfo    Activities @relation(fields: [activityInfosId], references: [id])
+
+  @@unique(fields: [userId, activityInfosId])
 }

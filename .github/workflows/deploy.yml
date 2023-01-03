@@ -2,12 +2,21 @@ on:
   push:
     branches:
       - main
+      - testDeploy
 
 name: Build and Deploy
 jobs:
   build:
     runs-on: drivent
     timeout-minutes: 20
+    env: 
+      NODE_ENV: production
+      JWT_SECRET: ${{ secrets.JWT_SECRET }}
+      REDIS_URL: ${{ secrets.REDIS_URL }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      DATABASE_URL: ${{ secrets.DATABASE_URL }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -24,6 +33,5 @@ jobs:
         run: docker-compose build
 
       - name: Run
-        run: |
-          echo "State is: '${{ env.DATABASE_URL }}'"
-          docker-compose down && docker-compose up
+        run: docker-compose down && docker-compose up
+

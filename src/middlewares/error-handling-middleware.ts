@@ -20,7 +20,13 @@ export function handleApplicationErrors(
     });
   }
 
-  if (err.name === 'InvalidCredentialsError') {
+  if (err.name === 'InvalidCredentialsError' || err.name === "UnauthorizedError") {
+    return res.status(httpStatus.UNAUTHORIZED).send({
+      message: err.message,
+    });
+  }
+
+  if (err.name === 'InvalidSubscriptionError') {
     return res.status(httpStatus.UNAUTHORIZED).send({
       message: err.message,
     });

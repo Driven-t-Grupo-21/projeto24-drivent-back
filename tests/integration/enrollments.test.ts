@@ -64,14 +64,14 @@ describe('GET /enrollments', () => {
         birthday: enrollment.birthday.toISOString(),
         phone: enrollment.phone,
         address: {
-          id: enrollment.Address[0].id,
-          cep: enrollment.Address[0].cep,
-          street: enrollment.Address[0].street,
-          city: enrollment.Address[0].city,
-          state: enrollment.Address[0].state,
-          number: enrollment.Address[0].number,
-          neighborhood: enrollment.Address[0].neighborhood,
-          addressDetail: enrollment.Address[0].addressDetail,
+          id: enrollment.Address.id,
+          cep: enrollment.Address.cep,
+          street: enrollment.Address.street,
+          city: enrollment.Address.city,
+          state: enrollment.Address.state,
+          number: enrollment.Address.number,
+          neighborhood: enrollment.Address.neighborhood,
+          addressDetail: enrollment.Address.addressDetail,
         },
       });
     });

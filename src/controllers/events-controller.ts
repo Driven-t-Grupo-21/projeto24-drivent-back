@@ -1,9 +1,31 @@
+import { notFoundError } from '@/errors';
 import eventsService from '@/services/events-service';
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
+import { createClient } from 'redis';
+
+const redis = createClient({url: process.env.REDIS_URL});
+
+redis.connect();
 
 export async function getDefaultEvent(_req: Request, res: Response) {
-  const event = await eventsService.getFirstEvent();
+  const cacheKey = 'events';
+  const cacheExpiration = 10000;
 
-  return res.status(httpStatus.OK).send(event);
+  try {
+    const cachedEvents = await redis.get(cacheKey);
+    if (cachedEvents) {
+      res.status(httpStatus.OK).send(JSON.parse(cachedEvents));
+    } else {
+      const event = await eventsService.getFirstEvent();
+
+      redis.setEx(cacheKey, cacheExpiration, JSON.stringify(event));
+
+      return res.status(httpStatus.OK).send(event);
+    }
+  } catch (error) {
+    throw error;
+  }
 }
+
+export default redis;

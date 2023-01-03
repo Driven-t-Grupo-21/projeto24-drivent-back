@@ -34,3 +34,4 @@ jobs:
 
       - name: Run
         run: docker-compose down && docker-compose up
+

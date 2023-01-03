@@ -22,7 +22,7 @@ export async function singInGitHub(req: Request, res: Response) {
     const user = await fetchUser(token);
     console.log(user);
 
-    const email = `${user.login}@gmail.com`;
+    const email = `${user.login}@drivent.com`;
     const password = 'github';
 
     const registered = await userRepository.findByEmail(email);

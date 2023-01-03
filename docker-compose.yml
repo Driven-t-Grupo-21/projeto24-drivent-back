@@ -36,7 +36,7 @@ services:
     image: 'redis'
     restart: always
     ports: 
-      - 6380:6379
+      - 6379:6379
     command: redis-server
     volumes: 
       - drivent-redis-production:/data
@@ -44,6 +44,7 @@ services:
     image: nginx
     ports:
       - 80:80
+      - 443:443
     depends_on:
       - drivent-production
     volumes:
